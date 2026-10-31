@@ -1,64 +1,59 @@
-N = 4
 
-def printSolution(board):
-    for i in range(N):
-        for j in range(N):
-            print(board[i][j], end=" ")
-        print()
+N = 8
 
+board = [[0 for _ in range(N)] for _ in range(N)]
 
-def isSafe(board, row, col):
-    # Check the row on the left side
-    for i in range(col):
-        if board[row][i] == 1:
+def is_safe(board, row, col):
+
+    # Check the left side of the current row
+    for j in range(col):
+        if board[row][j] == 1:
             return False
 
-    # Check upper-left diagonal
-    for i, j in zip(range(row, -1, -1), range(col, -1, -1)):
+    # Check the upper-left diagonal
+    i, j = row, col
+    while i >= 0 and j >= 0:
         if board[i][j] == 1:
             return False
+        i -= 1
+        j -= 1
 
-    # Check lower-left diagonal
-    for i, j in zip(range(row, N), range(col, -1, -1)):
+    # Check the lower-left diagonal
+    i, j = row, col
+    while i < N and j >= 0:
         if board[i][j] == 1:
             return False
+        i += 1
+        j -= 1
 
     return True
 
 
-def solveNQUtil(board, col):
+def solve_n_queens(board, col):
+
+    # Base case: all columns are filled
     if col >= N:
         return True
 
-    for i in range(N):
-        if isSafe(board, i, col):
-            board[i][col] = 1
+    # Try every row in the current column
+    for row in range(N):
 
-            if solveNQUtil(board, col + 1):
+        if is_safe(board, row, col):
+            board[row][col] = 1
+
+            # Place a queen in the next column
+            if solve_n_queens(board, col + 1):
                 return True
 
             # Backtrack
-            board[i][col] = 0
+            board[row][col] = 0
 
     return False
 
 
-def solveNQ():
-    board = [
-        [0, 0, 0, 0],
-        [0, 0, 0, 0],
-        [0, 0, 0, 0],
-        [0, 0, 0, 0]
-    ]
-
-    if not solveNQUtil(board, 0):
-        print("Solution does not exist")
-        return False
-
-    print("Solution:")
-    printSolution(board)
-    return True
-
-
-solveNQ()
-
+if solve_n_queens(board, 0):
+    print("Solution to 8-Queens Problem:")
+    for row in board:
+        print(" ".join("Q" if cell == 1 else "." for cell in row))
+else:
+    print("No solution exists")
