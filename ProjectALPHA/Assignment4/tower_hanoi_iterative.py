@@ -39,8 +39,29 @@ for i in range(1, total_moves + 1):
     else:
         legal_move(B, C, b_name, c_name)
         
-        
-        
+
+
+        """"" SECOND METHOD"""""""
+def hanoi(n):
+    moves = 2**n - 1
+    src, aux, dest = 'A', 'B', 'C'
+
+    if n % 2 == 0:
+        aux, dest = dest, aux
+
+    for i in range(1, moves + 1):
+        if i % 3 == 1:
+            move(src, dest)
+        elif i % 3 == 2:
+            move(src, aux)
+        else:
+            move(aux, dest)
+
+def move(a, b):
+    print(a, "->", b)
+
+n = int(input("Enter number of disks: "))
+hanoi(n)       
         
         -----OUTPUT------
         ubuntu@ubuntu-HP-Pro-SFF-280-G9-Desktop-PC:~/Downloads/TECOB11$ python3 tower_hanoi_iterative.py
