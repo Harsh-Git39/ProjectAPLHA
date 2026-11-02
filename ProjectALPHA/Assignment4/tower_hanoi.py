@@ -5,7 +5,7 @@ def tower_hanoi(n,source,auxiliary,destination):
      
    tower_hanoi(n-1 , source , destination , auxiliary)
    
-   print(f" Move largest disk from A to C ")
+   print(f"Move disk {n} from source {source} to destination {destination}")
    
    tower_hanoi(n-1 , auxiliary , source , destination)
    
